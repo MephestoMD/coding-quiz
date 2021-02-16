@@ -9,6 +9,10 @@ body {
     float: left;
 }
 
+#timer {
+    float: right;
+}
+
 header {
     font-size: 2.5em;
     padding-top: 75px;
