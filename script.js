@@ -75,15 +75,17 @@ function questionPopulate(questionNum) {
     gameArea.innerHTML = "";
     answerList.innerHTML = "";
 
+    // Create variables from questionBank array to hold current question and current answer options
     let thisQuestion = questionBank[questionNum].question;
     let theseOptions = questionBank[questionNum].options;
 
-    console.log(theseOptions);
-
+    // Set and display the text of the question in the game area
     gameArea.textContent = thisQuestion;
 
+    // Append the currently empty list to the game area
     gameArea.appendChild(answerList);
 
+    // Iterate over the current answer options to append them to the list one-by-one
     for (i = 0; i < theseOptions.length; i++) {
         let item = document.createElement("li");
         item.setAttribute("class","choice");
@@ -91,6 +93,7 @@ function questionPopulate(questionNum) {
         answerList.appendChild(item);
     }
     
+    // Add event listener to wait for user to click and call the rightOrWrong function to determine whether the choice was correct or incorrect
     answerList.addEventListener("click", rightOrWrong);
 }
 
