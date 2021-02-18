@@ -70,3 +70,12 @@ li.correct{
     margin: auto;
     margin-top: 30px;
 }
+
+li.incorrect{
+    border-top: 5px dashed red;
+    text-align: right;
+    width: 200px;
+    color: red;
+    margin: auto;
+    margin-top: 30px;
+}

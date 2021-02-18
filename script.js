@@ -105,12 +105,33 @@ function rightOrWrong (event) {
         let userAnswer = event.target.textContent;
         // Create a div for the area to display right or wrong text
         let answerNotify = document.createElement("li");
-       
+
+        // Check if user's answer matches the correct or incorrect answer and display result
         if (userAnswer === questionBank[questionNum].correct) {
             numRight++;
             answerNotify.textContent = "Correct!";
             answerNotify.setAttribute("class", "correct");
             answerList.appendChild(answerNotify);
+
+        }
+        else {
+            timeLeft = timeLeft - 10;
+            answerNotify.textContent = "Incorrect! (-10s)";
+            answerNotify.setAttribute("class", "incorrect");
+            answerList.appendChild(answerNotify);
+        }
+        // Increment to next question
+        questionNum++;
+
+        // If statement to bring user to highscore screen if this is the last question
+        if (questionNum > questionNum.length) {
+            // gameEnd();
+        }
+        // Else statement to continue to next question with a 500ms delay to allow correct or incorrect display to occur
+        else {
+            setTimeout(function() {
+                questionPopulate(questionNum);
+            }, 500)
         }
 
     }
