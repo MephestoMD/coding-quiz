@@ -1,5 +1,7 @@
 // Select timer element by ID
 let timer = document.getElementById("timer");
+// Declare global variable for interval so it can be called outside the function
+let timeId = 0;
 
 // Select start button by ID
 let startButton = document.getElementById("start-button");
@@ -18,6 +20,9 @@ let questionNum = 0;
 let numWrong = 0;
 let numRight = 0;
 
+let scoreLink = document.getElementById("highscores");
+scoreLink.onclick = gameEnd;
+
 // Create an array of objects to handle each question and its corrects
 let questionBank = [
     {
@@ -33,16 +38,16 @@ let questionBank = [
     {
         question: "Arrays in JavaScript can be used to store ___",
         options: ["numbers", "other arrays", "booleans", "all of the above"],
-        correct: "d) all of the above"
+        correct: "all of the above"
     },
     {
-        question: "String value must be enclosed within ___ when being assigned to variables.",
+        question: "String values must be enclosed within ___ when being assigned to variables.",
         options: ["commas", "curly braces", "quotations", "parentheses"],
         correct: "quotations"
     },
     {
         question: "A very useful tool used during development and debugging for printing content to the debugger is ___",
-        options: ["JavaScript", "b) Terminal/Bash", "alerts", "console.log"],
+        options: ["JavaScript", "Terminal/Bash", "alerts", "console.log"],
         correct: "console.log"
     },
 ]
@@ -54,7 +59,7 @@ function startTimer () {
     timer.textContent = "Time: " + timeLeft;  
 
     // Call setInterval function to create timer countdown
-    let timeId = setInterval(function () {
+    timeId = setInterval(function () {
 
         timeLeft --;
         timer.textContent = "Time: " + timeLeft;
@@ -62,7 +67,7 @@ function startTimer () {
         // End condition for time elapsed scenario
         if (timeLeft === 0) {
             clearInterval(timeId);
-            // gameOver();
+            gameEnd();
         }
 
     }, 1000);
@@ -74,6 +79,7 @@ function questionPopulate(questionNum) {
     // Clear the current game area and question lists if applicable
     gameArea.innerHTML = "";
     answerList.innerHTML = "";
+    console.log(timeId);
 
     // Create variables from questionBank array to hold current question and current answer options
     let thisQuestion = questionBank[questionNum].question;
@@ -127,8 +133,8 @@ function rightOrWrong (event) {
         questionNum++;
 
         // If statement to bring user to highscore screen if this is the last question
-        if (questionNum > questionNum.length) {
-            // gameEnd();
+        if (questionNum === 5) {
+            gameEnd();
         }
         // Else statement to continue to next question with a 500ms delay to allow correct or incorrect display to occur
         else {
@@ -138,6 +144,23 @@ function rightOrWrong (event) {
         }
 
     }
+
+}
+
+function gameEnd(){
+    // Stop timer if it has been started
+    if (timeId > 0) {
+    clearInterval(timeId);
+    }
+
+    // Clear the game area
+    gameArea.innerHTML = "";
+    answerList.innerHTML = "";
+
+    // Calculate user score and store it in a variable
+    let userScore = (numRight*10 + Math.round(timeLeft/2));
+    
+
 
 }
 
