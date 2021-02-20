@@ -7,10 +7,12 @@ body {
 
 #highscores {
     float: left;
+    font-size: 1.5em;
 }
 
 #timer {
     float: right;
+    font-size: 1.5em;
 }
 
 
@@ -78,4 +80,8 @@ li.incorrect{
     color: red;
     margin: auto;
     margin-top: 30px;
+}
+
+form {
+    margin: 20px;
 }

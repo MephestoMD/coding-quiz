@@ -16,12 +16,14 @@ let timeLeft = 75;
 // Define variable for which question the player is currently on
 let questionNum = 0;
 
-// Define variables for number of questions right and wrong
-let numWrong = 0;
+// Define variables for number of questions right
 let numRight = 0;
 
 let scoreLink = document.getElementById("highscores");
 scoreLink.onclick = gameEnd;
+
+let userScore = 0;
+let userInitials = "";
 
 // Create an array of objects to handle each question and its corrects
 let questionBank = [
@@ -132,9 +134,11 @@ function rightOrWrong (event) {
         // Increment to next question
         questionNum++;
 
-        // If statement to bring user to highscore screen if this is the last question
-        if (questionNum === 5) {
-            gameEnd();
+        // If statement to bring user to highscore screen if this is the last question (with 500ms delay to display correct/incorrect)
+        if (questionNum === questionBank.length) {
+            setTimeout(function() {
+                gameEnd();
+            }, 500)
         }
         // Else statement to continue to next question with a 500ms delay to allow correct or incorrect display to occur
         else {
@@ -158,10 +162,43 @@ function gameEnd(){
     answerList.innerHTML = "";
 
     // Calculate user score and store it in a variable
-    let userScore = (numRight*10 + Math.round(timeLeft/2));
+    userScore = (numRight*10 + Math.round(timeLeft/2));
+
+    // Set text content of game area
+    gameArea.textContent = "All done!\nYour final score is " + userScore;
+
+    // Create the form for score submission and add the necessary elements
+    let scoreSubmit = document.createElement("form");
+    gameArea.appendChild(scoreSubmit);
+
+    let userInitials = document.createElement("label");
+    userInitials.textContent = "Enter initials: ";
+    scoreSubmit.appendChild(userInitials);
+
+    let inputScore = document.createElement("input");
+    inputScore.setAttribute("type", "text");
+    scoreSubmit.appendChild(inputScore);
+
+    let submitBtn = document.createElement("input");
+    submitBtn.setAttribute("type", "submit");
+    scoreSubmit.appendChild(submitBtn);
     
+    // Event listener for submit button with reference to high score page function
+    submitBtn.addEventListener("click", highScore);
 
+}
 
+function highScore() {
+    // Clear page
+    gameArea.innerHTML = "";
+
+    gameArea.textContent = "Highscores";
+    let scoreList = document.createElement("ul");
+    gameArea.appendChild(scoreList);
+
+    let scoreItem = document.createElement("li");
+    scoreItem.textContent = userInitials + " :" + userScore;
+    scoreList.appendChild(scoreItem);
 }
 
 
